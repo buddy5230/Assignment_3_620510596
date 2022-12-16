@@ -30,16 +30,26 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  String username;
-
-  void _loginUser() {
-    //TODO
-    setState(() {});
+  String? username;
+  bool x = false;
+  void _loginUser() async{
+    setState(() {
+      x = true;
+    });
+    username = await getUserInfo() ;
+    setState(() {
+      x = false;
+    });
   }
 
-  String greetText() {
-    //TODO
-    return '';
+  String greetText(){
+    if(x){
+      return 'Logging in...';
+    }else if(username!=null){
+      return 'Hello <$username>';
+    }else{
+      return 'Login fails';
+    }
   }
 
   @override
@@ -54,15 +64,16 @@ class _MyHomePageState extends State<MyHomePage> {
           children: <Widget>[
             Text(
               greetText(),
-              style: Theme.of(context).textTheme.displayMedium,
+             style: Theme.of(context).textTheme.displayMedium,
             ),
           ],
         ),
       ),
+
       floatingActionButton: FloatingActionButton(
         onPressed: _loginUser,
         tooltip: 'login',
-        child: const Icon(Icons.login),
+        child: const Icon(Icons.add),
       ),
     );
   }
